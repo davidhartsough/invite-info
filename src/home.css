@@ -1,0 +1,34 @@
+.hero {
+  text-align: center;
+}
+
+.subtitle {
+  color: hsl(var(--hero-fg) / 88%);
+  font-variant: small-caps;
+  font-weight: 500;
+  margin: 0.5rem 0 0;
+}
+
+section {
+  text-align: center;
+}
+
+.lead {
+  color: hsl(var(--fg-hsl) / 85%);
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.linebreak {
+  display: block;
+}
+
+@media (width > 28rem) {
+  .linebreak {
+    display: none;
+  }
+}
+
+#deets {
+  cursor: pointer;
+}

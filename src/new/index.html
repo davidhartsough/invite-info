@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Event | Invite•Info</title>
+    <meta
+      name="description"
+      content="Create a new event and get a shareable invitation information page on Invite•Info."
+    />
+    <!-- extras -->
+    <meta
+      name="keywords"
+      content="event,meetup,share,invite,invitation,info,information"
+    />
+    <meta name="author" content="David Hartsough" />
+    <meta name="application-name" content="Invite•Info" />
+    <meta name="theme-color" content="#83c3fc" />
+    <!-- open graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Create New Event" />
+    <meta
+      property="og:description"
+      content="Create a new event and get a shareable invitation information page on Invite•Info."
+    />
+    <meta property="og:url" content="https://invite-info.web.app/new" />
+    <meta property="og:site_name" content="Invite•Info" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="/icon512.png" />
+    <meta property="og:image:alt" content="Invite•Info logo icon" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Create New Event" />
+    <meta
+      name="twitter:description"
+      content="Create a new event and get a shareable invitation information page on Invite•Info."
+    />
+    <meta name="twitter:image" content="/icon512.png" />
+    <meta name="twitter:image:alt" content="Invite•Info logo icon" />
+    <meta name="twitter:image:type" content="image/png" />
+    <meta name="twitter:image:width" content="512" />
+    <meta name="twitter:image:height" content="512" />
+    <!-- icons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+    <link rel="icon" href="/icon16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="/icon32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/icon192.png" type="image/png" sizes="192x192" />
+    <link
+      rel="apple-touch-icon"
+      href="/apple-icon.png"
+      type="image/png"
+      sizes="180x180"
+    />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#03447c" />
+    <meta name="msapplication-TileColor" content="#17354f" />
+    <!-- manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="/base.css" />
+    <link rel="stylesheet" href="/new/create.css" />
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a href="/" class="brand flex-center">
+          <span class="logo-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-info"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+          </span>
+          Invite <span class="separator">•</span> Info
+        </a>
+      </nav>
+      <header>
+        <div class="centered">
+          <h1 class="brand">New Event</h1>
+        </div>
+      </header>
+      <section>
+        <form class="centered" id="form">
+          <label for="title">Title <sup>*</sup></label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Event Name"
+            minlength="2"
+            maxlength="80"
+            required
+          />
+          <div class="row">
+            <div class="start">
+              <label for="start">Start <sup>*</sup></label>
+              <input
+                type="datetime-local"
+                name="start"
+                id="start"
+                step="900"
+                placeholder="Start date and time"
+                required
+              />
+            </div>
+            <div class="end">
+              <label for="end">End Time <sup>*</sup></label>
+              <input
+                type="time"
+                name="end"
+                id="end"
+                placeholder="17:00"
+                step="900"
+                required
+              />
+            </div>
+          </div>
+          <label for="location">Location <sup>*</sup></label>
+          <input
+            type="text"
+            name="location"
+            id="location"
+            placeholder="Location"
+            minlength="2"
+            maxlength="140"
+            required
+          />
+          <label for="description">Description <sup>*</sup></label>
+          <textarea
+            name="description"
+            id="description"
+            rows="3"
+            placeholder="Description"
+            minlength="2"
+            maxlength="800"
+            required
+          ></textarea>
+          <label for="link">Link</label>
+          <input
+            type="url"
+            name="link"
+            id="link"
+            placeholder="URL"
+            pattern="^(https?:\/\/)((?!-)(?!.*--)[a-zA-Z\-0-9]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\/[^\s]*)?$"
+            autocomplete="off"
+          />
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Contact email"
+            pattern='^([^<>\(\)\[\]\\.,;:\s@"]{1,63})@((((?!-)(?!.*--)[a-zA-Z\-0-9]{1,63}(?<!-))+\.)+([a-zA-Z]{2,63}))$'
+          />
+          <footer>
+            <button type="submit" class="btn">Create New Event</button>
+          </footer>
+        </form>
+      </section>
+    </main>
+    <script src="/new/create.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "invite-info",
+  "version": "0.1.0",
+  "description": "Invitation Information",
+  "main": "index.js",
+  "scripts": {
+    "dev": "serve src"
+  },
+  "author": "davidhartsough",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.19.5",
+    "eslint": "^8.53.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "html-minifier": "^4.0.0",
+    "lightningcss": "^1.22.1",
+    "prettier": "^3.1.0",
+    "serve": "^14.2.1",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0"
+  }
+}

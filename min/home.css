@@ -1,0 +1,1 @@
+.hero{text-align:center}.subtitle{color:hsl(var(--hero-fg)/88%);font-variant:small-caps;margin:.5rem 0 0;font-weight:500}section{text-align:center}.lead{color:hsl(var(--fg-hsl)/85%);letter-spacing:.5px;font-size:1.25rem}.linebreak{display:block}@media (width>28rem){.linebreak{display:none}}#deets{cursor:pointer}

@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "public": "min",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": ["**/.*"],
+    "rewrites": [
+      {
+        "source": "/event/**",
+        "destination": "/event/index.html"
+      },
+      {
+        "source": "/api/info",
+        "function": "info"
+      },
+      {
+        "source": "/api/create",
+        "function": "create"
+      }
+    ]
+  }
+}

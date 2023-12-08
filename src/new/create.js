@@ -62,7 +62,7 @@ function getLocaleDateTime(start, end) {
   return `${startDT} - ${endDT}`;
 }
 
-form.addEventListener("submit", (ev) => {
+form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
   const titleInput = titleInputEl.value.trim();
   if (!titleInput || titleInput.length < 2 || titleInput.length > 80) {
@@ -134,13 +134,16 @@ form.addEventListener("submit", (ev) => {
   }
   console.log("eventInfo:", eventInfo);
   //
-  fetch("https://invite-info.web.app/create", {
+  const res = await fetch("https://invite-info.web.app/api/create", {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: { eventInfo },
-  }).then((inviteInfo) => {
-    console.log("inviteInfo:", inviteInfo);
-    window.localStorage.setItem(inviteInfo.id, JSON.stringify(inviteInfo));
-    window.location.href = `https://invite-info.web.app/i/?event=${inviteInfo.id}`;
   });
+  const inviteInfo = await res.json();
+  //
+  console.log("inviteInfo:", inviteInfo);
+  window.localStorage.setItem(inviteInfo.id, JSON.stringify(inviteInfo));
+  window.location.href = `https://invite-info.web.app/event/?i=${inviteInfo.id}`;
+  //
   return false;
 });

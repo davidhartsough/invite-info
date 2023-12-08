@@ -90,6 +90,14 @@ function getRecentTimestamp(dtStartNum) {
     // return new Date()
   }
 }
+
+// EXAMPLE
+
+https://calendar.google.com/calendar/render?text=Inspection:+4/21+Querrin+Street,+Yeronga,+4104&dates=20231211T054500Z%2F20231211T060000Z&details=Property+Price:+$510+per+week%0ABedrooms:+2%0ABathrooms:+2%0AParking+Spaces:+1%0A%0AView+Details:+https://www.realestate.com.au/438200008%0A%0Arealestate.com.au+recommends+confirming+the+Open+for+Inspection+Times+with+the+Agent,+to+ensure+they+have+not+changed.%0A&location=4/21%20Querrin%20Street,%20Yeronga,%204104&action=TEMPLATE
+
+`/r/n`
+
+data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A%2F%2Frealestate.com.au%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Affb50930-1b44-48e8-870a-e750876a5859%0D%0ADTSTAMP%3A20231207T233204Z%0D%0ASUMMARY%3AInspection%3A%204%2F21%20Querrin%20Street%5C%2C%20Yeronga%5C%2C%204104%0D%0ADESCRIPTION%3AProperty%20Price%3A%20%24510%20per%20week%5CnBedrooms%3A%202%5CnBathrooms%3A%202%5CnParki%0D%0A%20ng%20Spaces%3A%201%5Cn%5CnView%20Details%3A%20https%3A%2F%2Fwww.realestate.com.au%2F438200008%5Cn%5Cnr%0D%0A%20ealestate.com.au%20recommends%20confirming%20the%20Open%20for%20Inspection%20Times%20with%20%0D%0A%20the%20Agent%5C%2C%20to%20ensure%20they%20have%20not%20changed.%5Cn%0D%0ALOCATION%3A4%2F21%20Querrin%20Street%5C%2C%20Yeronga%5C%2C%204104%0D%0ADTSTART%3A20231211T054500Z%0D%0ADTEND%3A20231211T060000Z%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR%0D%0A
 */
 
 const getMetaEl = (q) => document.head.querySelector(`meta[${q}]`);
@@ -130,7 +138,7 @@ appleCalLink.addEventListener("click", () => {
   unstickModal();
 });
 
-const getURL = (id) => `https://invite-info.web.app/i/?event=${id}`;
+const getURL = (id) => `https://invite-info.web.app/event/?i=${id}`;
 
 function render(info) {
   const metaTitle = `"${info.title}" | Invite•Info`;
@@ -163,13 +171,13 @@ function render(info) {
 }
 
 const { searchParams } = new URL(window.location.href);
-const id = searchParams.get("event");
+const id = searchParams.get("i");
 const backup = window.localStorage.getItem(id);
 if (backup) {
   const info = JSON.parse(backup);
   render(info);
 } else {
-  fetch(`https://invite-info.web.app/api/info?event=${id}`).then((info) => {
+  fetch(`https://invite-info.web.app/api/info?id=${id}`).then((info) => {
     window.localStorage.setItem(id, JSON.stringify(info));
     render(info);
   });

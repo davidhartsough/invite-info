@@ -45,25 +45,6 @@ const endPattern = /^([0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1})$/;
 
 const getTimestamp = (dt) => new Date(dt).getTime();
 
-/*
-function getUTC(dt) {
-  return `${new Date(dt)
-    .toISOString()
-    .slice(0, 16)
-    .replaceAll("-", "")
-    .replace(":", "")}00Z`;
-}
-
-function getLocaleDateTime(start, end) {
-  const startDT = new Date(start).toLocaleString(undefined, {
-    dateStyle: "full",
-    timeStyle: "short",
-  });
-  const endDT = new Date(end).toLocaleString(undefined, { timeStyle: "short" });
-  return `${startDT} - ${endDT}`;
-}
-*/
-
 form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
   const titleInput = titleInputEl.value.trim();
@@ -133,17 +114,14 @@ form.addEventListener("submit", async (ev) => {
     eventInfo.email = emailInput;
   }
   console.log("eventInfo:", eventInfo);
-  //
   const res = await fetch("https://invite-info.web.app/api/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: { eventInfo },
   });
-  const inviteInfo = await res.json();
-  //
-  console.log("inviteInfo:", inviteInfo);
-  window.localStorage.setItem(inviteInfo.id, JSON.stringify(inviteInfo));
-  window.location.href = `https://invite-info.web.app/event/?i=${inviteInfo.id}`;
-  //
+  const { info } = await res.json();
+  console.log("info:", info);
+  window.localStorage.setItem(info.id, JSON.stringify(info));
+  window.location.href = `https://invite-info.web.app/event/?i=${info.id}`;
   return false;
 });

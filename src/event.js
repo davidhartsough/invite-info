@@ -53,10 +53,6 @@ function getGCalLink() {
 // END:VEVENT
 // END:VCALENDAR
 
-function icsEscape(str) {
-  return str.replace(/[\\;:,"]/g, (c) => `\\${c}`).replaceAll("\n", "\\n");
-}
-
 function icsFileDataURL(title, description, location, start, end) {
   const icsData = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -70,14 +66,6 @@ DTEND:${end}
 END:VEVENT
 END:VCALENDAR`;
   return `data:text/calendar;charset=UTF-8,${encodeURIComponent(icsData)}`;
-}
-
-function getUTC(dt) {
-  return `${new Date(dt)
-    .toISOString()
-    .slice(0, 16)
-    .replaceAll("-", "")
-    .replace(":", "")}00Z`;
 }
 
 todo
@@ -98,6 +86,41 @@ https://calendar.google.com/calendar/render?text=Inspection:+4/21+Querrin+Street
 `/r/n`
 
 data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A%2F%2Frealestate.com.au%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Affb50930-1b44-48e8-870a-e750876a5859%0D%0ADTSTAMP%3A20231207T233204Z%0D%0ASUMMARY%3AInspection%3A%204%2F21%20Querrin%20Street%5C%2C%20Yeronga%5C%2C%204104%0D%0ADESCRIPTION%3AProperty%20Price%3A%20%24510%20per%20week%5CnBedrooms%3A%202%5CnBathrooms%3A%202%5CnParki%0D%0A%20ng%20Spaces%3A%201%5Cn%5CnView%20Details%3A%20https%3A%2F%2Fwww.realestate.com.au%2F438200008%5Cn%5Cnr%0D%0A%20ealestate.com.au%20recommends%20confirming%20the%20Open%20for%20Inspection%20Times%20with%20%0D%0A%20the%20Agent%5C%2C%20to%20ensure%20they%20have%20not%20changed.%5Cn%0D%0ALOCATION%3A4%2F21%20Querrin%20Street%5C%2C%20Yeronga%5C%2C%204104%0D%0ADTSTART%3A20231211T054500Z%0D%0ADTEND%3A20231211T060000Z%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR%0D%0A
+
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTAMP:20231207T233204Z
+SUMMARY:Inspection
+DESCRIPTION:Property
+LOCATION:Querrin Street
+DTSTART:20231211T054500Z
+DTEND:20231211T060000Z
+END:VEVENT
+END:VCALENDAR
+
+// escape characters: \ ; , 
+function icsEscape(str, newlines = false) {
+  return str
+    .replaceAll("\n", newlines ? "\n" : "")
+    .replace(/[\\;:,"]/g, (c) => `\\${c}`);
+}
+
+function icsFileDataURL(title, location, description, startUTC, endUTC) {
+  const icsData = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTAMP:${startUTC.slice(0, 8)}T000001Z
+SUMMARY:${icsEscape(title)}
+LOCATION:${icsEscape(location)}
+DESCRIPTION:${icsEscape(description, true)}
+DTSTART:${startUTC}
+DTEND:${endUTC}
+END:VEVENT
+END:VCALENDAR`;
+  return `data:text/calendar;charset=UTF-8,${encodeURIComponent(icsData)}`;
+}
+
 */
 
 const getMetaEl = (q) => document.head.querySelector(`meta[${q}]`);
@@ -138,47 +161,76 @@ appleCalLink.addEventListener("click", () => {
   unstickModal();
 });
 
-const getURL = (id) => `https://invite-info.web.app/event/?i=${id}`;
+const baseURL = "https://invite-info.web.app/";
+const getURL = (id) => `${baseURL}event/?i=${id}`;
 
-function render(info) {
-  const metaTitle = `"${info.title}" | Invite•Info`;
-  const metaDescription = `"${info.title}": event information`;
+function setDateTime(start, end) {
+  const startDT = new Date(start).toLocaleString(undefined, {
+    dateStyle: "full",
+    timeStyle: "short",
+  });
+  const endDT = new Date(end).toLocaleString(undefined, { timeStyle: "short" });
+  datetimeP.textContent = `${startDT} - ${endDT}`;
+}
+
+function render({
+  id,
+  title,
+  location,
+  description,
+  start,
+  end,
+  link,
+  email,
+  gCalLink,
+  icsLink,
+}) {
+  const metaTitle = `"${title}" | Invite•Info`;
+  const metaDescription = `"${title}": event information`;
   document.title = metaTitle;
   metaDescEl.setAttribute("content", metaDescription);
   ogTitleEl.setAttribute("content", metaTitle);
   ogDescEl.setAttribute("content", metaDescription);
-  ogUrlEl.setAttribute("content", getURL(info.id));
+  ogUrlEl.setAttribute("content", getURL(id));
   twitterDescEl.setAttribute("content", metaDescription);
-  titleH1.textContent = info.title;
-  datetimeP.textContent = info.datetime;
-  locationP.textContent = info.location;
-  descriptionP.textContent = info.description;
-  if (info.link) {
-    linkA.textContent = info.link;
-    linkA.href = info.link;
+  titleH1.textContent = title;
+  setDateTime(start, end);
+  locationP.textContent = location;
+  descriptionP.textContent = description;
+  if (link) {
+    linkA.textContent = link;
+    linkA.href = link;
   } else {
     websiteDiv.style.display = "none";
   }
-  if (info.email) {
-    emailA.textContent = info.email;
-    emailA.href = `mailto:${info.email}`;
+  if (email) {
+    emailA.textContent = email;
+    emailA.href = `mailto:${email}`;
   } else {
     contactDiv.style.display = "none";
   }
-  googleCalLink.href = info.gCalLink;
-  const ics = encodeURIComponent(info.icsData);
-  appleCalLink.href = `data:text/calendar;charset=UTF-8,${ics}`;
+  googleCalLink.href = gCalLink;
+  appleCalLink.href = icsLink;
+}
+
+async function getInfo(id) {
+  const res = await fetch(`${baseURL}api/info?id=${id}`);
+  const { info } = await res.json();
+  console.log("info:", info);
+  window.localStorage.setItem(id, JSON.stringify(info));
+  render(info);
 }
 
 const { searchParams } = new URL(window.location.href);
 const id = searchParams.get("i");
-const backup = window.localStorage.getItem(id);
-if (backup) {
-  const info = JSON.parse(backup);
-  render(info);
-} else {
-  fetch(`https://invite-info.web.app/api/info?id=${id}`).then((info) => {
-    window.localStorage.setItem(id, JSON.stringify(info));
+if (id && id.length > 2) {
+  const backup = window.localStorage.getItem(id);
+  if (backup) {
+    const info = JSON.parse(backup);
     render(info);
-  });
+  } else {
+    getInfo(id);
+  }
+} else {
+  window.location.replace(baseURL);
 }

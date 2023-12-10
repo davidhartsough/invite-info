@@ -33,16 +33,6 @@ startInputEl.setAttribute("min", getMinDT());
 startInputEl.setAttribute("max", getMaxDT());
 endInputEl.value = "20:00";
 
-function getUTC(dt) {
-  return `${new Date(dt)
-    .toISOString()
-    .slice(0, 16)
-    .replaceAll("-", "")
-    .replace(":", "")}00Z`;
-}
-
-const getTimestamp = (dt) => new Date(dt).getTime();
-
 const urlPattern =
   /^(https?:\/\/)((?!-)(?!.*--)[a-zA-Z\-0-9]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\/[^\s]*)?$/;
 const emailPattern =
@@ -53,6 +43,17 @@ const startPattern =
 // "hh:mm"
 const endPattern = /^([0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1})$/;
 
+const getTimestamp = (dt) => new Date(dt).getTime();
+
+/*
+function getUTC(dt) {
+  return `${new Date(dt)
+    .toISOString()
+    .slice(0, 16)
+    .replaceAll("-", "")
+    .replace(":", "")}00Z`;
+}
+
 function getLocaleDateTime(start, end) {
   const startDT = new Date(start).toLocaleString(undefined, {
     dateStyle: "full",
@@ -61,6 +62,7 @@ function getLocaleDateTime(start, end) {
   const endDT = new Date(end).toLocaleString(undefined, { timeStyle: "short" });
   return `${startDT} - ${endDT}`;
 }
+*/
 
 form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
@@ -108,21 +110,19 @@ form.addEventListener("submit", async (ev) => {
     return false;
   }
   const start = getTimestamp(startInput);
-  const startUTC = getUTC(startInput);
+  //
+  // const startUTC = getUTC(startInput);
   let end = getTimestamp(`${startInput.slice(0, 11)}${endInput}`);
   const diff = end - start;
   if (diff < 0) {
     end += 86400000; // 24 hours in ms
   }
-  const endUTC = getUTC(end);
-  const datetime = getLocaleDateTime(start, end);
+  // const endUTC = getUTC(end);
+  // const datetime = getLocaleDateTime(start, end);
   const eventInfo = {
     title: titleInput,
-    datetime,
     start,
     end,
-    startUTC,
-    endUTC,
     location: locationInput,
     description: descriptionInput,
   };

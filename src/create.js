@@ -117,7 +117,7 @@ form.addEventListener("submit", async (ev) => {
   const res = await fetch("https://invite-info.web.app/api/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: { eventInfo },
+    body: JSON.stringify({ eventInfo }),
   });
   const { info } = await res.json();
   console.log("info:", info);

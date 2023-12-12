@@ -15,7 +15,7 @@
     />
     <meta name="author" content="David Hartsough" />
     <meta name="application-name" content="Invite•Info" />
-    <meta name="theme-color" content="#83c3fc" />
+    <meta name="theme-color" content="#132535" />
     <!-- open graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Create New Event" />
@@ -54,8 +54,7 @@
       type="image/png"
       sizes="180x180"
     />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#03447c" />
-    <meta name="msapplication-TileColor" content="#17354f" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#132535" />
     <!-- manifest -->
     <link rel="manifest" href="/manifest.json" />
     <!-- stylesheets -->
@@ -169,6 +168,47 @@
             <button type="submit" class="btn">Create New Event</button>
           </footer>
         </form>
+        <div id="loader">
+          <svg
+            width="128"
+            height="128"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 128 128"
+          >
+            <g
+              stroke="#c4daee"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="8"
+            >
+              <ellipse
+                cx="52"
+                cy="42"
+                fill="#c4daee"
+                rx="6"
+                ry="6"
+                stroke-opacity="0"
+                stroke-width="0"
+              />
+              <line fill="none" x1="52" x2="52" y1="58" y2="92" />
+              <ellipse
+                cx="76"
+                cy="42"
+                fill="#c4daee"
+                rx="6"
+                ry="6"
+                stroke-opacity="0"
+                stroke-width="0"
+              />
+              <line fill="none" x1="76" x2="76" y1="58" y2="92" />
+              <line fill="none" x1="73" x2="79" y1="58" y2="58" />
+              <line fill="none" x1="73" x2="79" y1="92" y2="92" />
+              <line fill="none" x1="49" x2="55" y1="58" y2="58" />
+              <line fill="none" x1="49" x2="55" y1="92" y2="92" />
+            </g>
+          </svg>
+          <div id="spinner"></div>
+        </div>
       </section>
     </main>
     <script src="/create.js" defer></script>

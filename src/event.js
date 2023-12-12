@@ -6,6 +6,8 @@ const ogUrlEl = getMetaEl(`property="og:url"`);
 const twitterDescEl = getMetaEl(`name="twitter:description"`);
 
 const getEl = (id) => document.getElementById(id);
+const contentDiv = getEl("content");
+const loader = getEl("loader");
 const websiteDiv = getEl("website");
 const contactDiv = getEl("contact");
 const titleH1 = getEl("title");
@@ -86,6 +88,8 @@ function render({
   }
   googleCalLink.href = gCalLink;
   appleCalLink.href = icsLink;
+  loader.style.display = "none";
+  contentDiv.style.display = "block";
 }
 
 async function getInfo(id) {
@@ -95,6 +99,7 @@ async function getInfo(id) {
   render(info);
 }
 
+loader.style.display = "block";
 const { searchParams } = new URL(window.location.href);
 const id = searchParams.get("i");
 if (id && id.length > 2) {

@@ -1,5 +1,6 @@
 const getEl = (id) => document.getElementById(id);
 const form = getEl("form");
+const loader = getEl("loader");
 const titleInputEl = getEl("title");
 const startInputEl = getEl("start");
 const endInputEl = getEl("end");
@@ -47,6 +48,8 @@ const getTimestamp = (dt) => new Date(dt).getTime();
 
 form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
+  form.style.display = "none";
+  loader.style.display = "block";
   const titleInput = titleInputEl.value.trim();
   if (!titleInput || titleInput.length < 2 || titleInput.length > 80) {
     titleInputEl.focus();
@@ -91,15 +94,11 @@ form.addEventListener("submit", async (ev) => {
     return false;
   }
   const start = getTimestamp(startInput);
-  //
-  // const startUTC = getUTC(startInput);
   let end = getTimestamp(`${startInput.slice(0, 11)}${endInput}`);
   const diff = end - start;
   if (diff < 0) {
     end += 86400000; // 24 hours in ms
   }
-  // const endUTC = getUTC(end);
-  // const datetime = getLocaleDateTime(start, end);
   const eventInfo = {
     title: titleInput,
     start,
@@ -113,14 +112,12 @@ form.addEventListener("submit", async (ev) => {
   if (emailInput) {
     eventInfo.email = emailInput;
   }
-  console.log("eventInfo:", eventInfo);
   const res = await fetch("https://invite-info.web.app/api/create", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ eventInfo }),
   });
   const { info } = await res.json();
-  console.log("info:", info);
   window.localStorage.setItem(info.id, JSON.stringify(info));
   window.location.href = `https://invite-info.web.app/event/?i=${info.id}`;
   return false;

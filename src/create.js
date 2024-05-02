@@ -117,8 +117,8 @@ form.addEventListener("submit", async (ev) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ eventInfo }),
   });
-  const { info } = await res.json();
-  window.localStorage.setItem(info.id, JSON.stringify(info));
-  window.location.href = `https://invite-info.web.app/event/?i=${info.id}`;
+  const { id } = await res.json();
+  // window.localStorage.setItem(info.id, JSON.stringify(info));
+  window.location.href = `https://invite-info.web.app/event/?i=${id}`;
   return false;
 });

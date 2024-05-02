@@ -6,11 +6,7 @@
     "ignore": ["**/.*"],
     "rewrites": [
       {
-        "source": "/event/**",
-        "destination": "/event/index.html"
-      },
-      {
-        "source": "/api/info",
+        "source": "/event",
         "function": "info"
       },
       {
